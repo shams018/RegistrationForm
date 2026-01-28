@@ -52,3 +52,12 @@ export const validateZipCode = (zipCode) => {
   } 
   return "";
 };
+//FOR COMPANY DESCRIPTION VALIDATION
+export const validateCompanyDescription = (description) => {
+  if (description.trim().length < 20) {
+    return "Description must be at least 20 characters long";
+  } else if (description.trim().length > 500) {
+    return "Description must be less than 500 characters long";
+  }
+  return "";
+};

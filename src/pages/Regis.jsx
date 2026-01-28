@@ -7,10 +7,9 @@ import { validateName } from "../utils/validation.jsx";
 import { validatePhoneNumber } from "../utils/validation.jsx";
 import { validateAccountNumber } from "../utils/validation";
 import { validateZipCode } from "../utils/validation.jsx";
+import { validateCompanyDescription } from "../utils/validation.jsx";
 
-
-
-  const Reg = () => {
+const Reg = () => {
   const [orgName, setOrgName] = React.useState("");
   const [touched, setTouched] = React.useState(false);
   const [insured, setInsured] = useState("");
@@ -32,11 +31,17 @@ import { validateZipCode } from "../utils/validation.jsx";
   const [lastname, setLastname] = useState("");
   const [lastnameError, setLastnameError] = useState("");
   const [companyadress, setCompanyaddress] = useState("");
-  const [addressError, setAddressError] = useState(""); 
-  const [streetadress, setStreetaddress] = useState(""); 
+  const [addressError, setAddressError] = useState("");
+  const [streetadress, setStreetaddress] = useState("");
   const [streetaddressError, setStreetaddressError] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [zipCodeError, setZipCodeError] = useState("");
+  const [companyDescription, setCompanyDescription] = useState("");
+  const [companyDescriptionError, setCompanyDescriptionError] = useState("");
+
+  const handleCompanyDescriptionBlur = () => {
+    setCompanyDescriptionError(validateCompanyDescription(companyDescription));
+  };
 
   const handleZipCodeBlur = () => {
     setZipCodeError(validateZipCode(zipCode));
@@ -48,7 +53,7 @@ import { validateZipCode } from "../utils/validation.jsx";
 
   const handleStreetBlur = () => {
     setStreetaddressError(validateAddress(streetadress));
-  };  
+  };
 
   const handleFirstBlur = () => {
     setFirstnameError(validateName(firstname));
@@ -57,20 +62,18 @@ import { validateZipCode } from "../utils/validation.jsx";
     setLastnameError(validateName(lastname));
   };
 
-
-
   const handleAccountBlur = () => {
     setAccountError(validateAccountNumber(accountNumber));
   };
 
- const handlePhoneBlur = () => {
+  const handlePhoneBlur = () => {
     setDayPhoneError(validatePhoneNumber(phoneNumberDay));
   };
 
   const handleEvenPhoneBlur = () => {
     setEveningPhoneError(validatePhoneNumber(phoneNumberEvening));
   };
-   const handleBlur = () => {
+  const handleBlur = () => {
     setError(validateAddress(address));
   };
 
@@ -83,11 +86,11 @@ import { validateZipCode } from "../utils/validation.jsx";
   };
 
   const handleNameChange = (e) => {
-    setName(e.target.value);  
+    setName(e.target.value);
     if (nameError) {
       setNameError(validateName(e.target.value));
     }
-  };  
+  };
 
   const isUppercase = orgName === orgName.toUpperCase();
 
@@ -148,7 +151,9 @@ import { validateZipCode } from "../utils/validation.jsx";
                 className={addressError ? "border-red-500" : ""}
               />
 
-              {addressError && <p className="text-xs text-red-500 mt-1">{addressError}</p>}
+              {addressError && (
+                <p className="text-xs text-red-500 mt-1">{addressError}</p>
+              )}
             </div>
 
             <div>
@@ -164,7 +169,11 @@ import { validateZipCode } from "../utils/validation.jsx";
                 className={streetaddressError ? "border-red-500" : ""}
               />
 
-              {streetaddressError && <p className="text-xs text-red-500 mt-1">{streetaddressError}</p>}
+              {streetaddressError && (
+                <p className="text-xs text-red-500 mt-1">
+                  {streetaddressError}
+                </p>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -193,7 +202,7 @@ import { validateZipCode } from "../utils/validation.jsx";
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 ZIP / Postal Code
-              </label>  
+              </label>
               <InputField
                 placeholder=""
                 value={zipCode}
@@ -203,7 +212,7 @@ import { validateZipCode } from "../utils/validation.jsx";
               />
               {zipCodeError && (
                 <p className="text-xs text-red-500 mt-1">{zipCodeError}</p>
-              )}  
+              )}
             </div>
 
             <div>
@@ -222,8 +231,8 @@ import { validateZipCode } from "../utils/validation.jsx";
 
           <div className=" grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <InputField 
-                placeholder="" 
+              <InputField
+                placeholder=""
                 value={firstname}
                 onChange={(e) => setFirstname(e.target.value)}
                 onBlur={handleFirstBlur}
@@ -234,11 +243,10 @@ import { validateZipCode } from "../utils/validation.jsx";
               {firstnameError && (
                 <p className="text-xs text-red-500 mt-1">{firstnameError}</p>
               )}
-            </div>    
+            </div>
 
-             
             <div>
-              <InputField 
+              <InputField
                 placeholder=""
                 value={lastname}
                 onChange={(e) => setLastname(e.target.value)}
@@ -250,8 +258,7 @@ import { validateZipCode } from "../utils/validation.jsx";
               {lastnameError && (
                 <p className="text-xs text-red-500 mt-1">{lastnameError}</p>
               )}
-            </div>  
-
+            </div>
           </div>
 
           <div className=" grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -269,33 +276,30 @@ import { validateZipCode } from "../utils/validation.jsx";
           </div>
           <div className=" grid grid-cols-1 md:grid-cols-2 gap-2">
             <div>
-             <InputField
-              placeholder=""
-              value={phoneNumberDay}
-              onChange={(e) => setPhoneNumberDay(e.target.value)}
-              onBlur={handlePhoneBlur}
-              className={dayPhoneError ? "border-red-500" : ""}
-            />
-            {dayPhoneError && (
-              <p className="text-xs text-red-500 mt-1">{dayPhoneError}</p>
-            )}
-              
+              <InputField
+                placeholder=""
+                value={phoneNumberDay}
+                onChange={(e) => setPhoneNumberDay(e.target.value)}
+                onBlur={handlePhoneBlur}
+                className={dayPhoneError ? "border-red-500" : ""}
+              />
+              {dayPhoneError && (
+                <p className="text-xs text-red-500 mt-1">{dayPhoneError}</p>
+              )}
             </div>
 
             <div>
               <InputField
-              placeholder=""
-              value={phoneNumberEvening}
-              onChange={(e) => setPhoneNumberEvening(e.target.value)}
-              onBlur={handleEvenPhoneBlur}
-              className={eveningPhoneError ? "border-red-500" : ""}
-            />
-            {eveningPhoneError && (
-              <p className="text-xs text-red-500 mt-1">{eveningPhoneError}</p>
-            )}
+                placeholder=""
+                value={phoneNumberEvening}
+                onChange={(e) => setPhoneNumberEvening(e.target.value)}
+                onBlur={handleEvenPhoneBlur}
+                className={eveningPhoneError ? "border-red-500" : ""}
+              />
+              {eveningPhoneError && (
+                <p className="text-xs text-red-500 mt-1">{eveningPhoneError}</p>
+              )}
             </div>
-            
-           
           </div>
           <label className="block text-sm font-medium text-gray-700 mb-2 mt-6">
             Email
@@ -319,14 +323,22 @@ import { validateZipCode } from "../utils/validation.jsx";
                 Company Overview
               </h1>
             </div>
-            <label className="block text-sm font-2xl font-semibold  text-gray-700 mt-6 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2 mt-6">
               General Details of Services/Goods
             </label>
-            <InputField
-              placeholder=""
-              className="w-full h-50 text-start text-top align-top
-               "
-            />{" "}
+            <textarea
+              placeholder="Enter company description..."
+              value={companyDescription}
+              onChange={(e) => setCompanyDescription(e.target.value)}
+              onBlur={handleCompanyDescriptionBlur}
+              rows={6} // controls height
+              className={`w-full p-2 border rounded resize-y text-left ${companyDescriptionError ? "border-blue-500" : ""}`}
+            />
+            {companyDescriptionError && (
+              <p className="text-xs text-red-500 mt-1">
+                {companyDescriptionError}
+              </p>
+            )}
           </div>
 
           <div>
@@ -455,7 +467,7 @@ import { validateZipCode } from "../utils/validation.jsx";
                 <label className="block text-sm font-medium text-gray-700 mb-2 mt-6">
                   Beneficiary Name
                 </label>
-                
+
                 <InputField placeholder="" />
               </div>
             </div>
@@ -473,7 +485,7 @@ import { validateZipCode } from "../utils/validation.jsx";
               {accountError && (
                 <p className="text-xs text-red-500 mt-1">{accountError}</p>
               )}
-            </div>    
+            </div>
 
             <div className="mt-8 mb-8">
               <p>
