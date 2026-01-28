@@ -45,3 +45,10 @@ export const validateAccountNumber = (accountNumber) => {
   }   
   return "";
 };
+//FOR ZIP CODE VALIDATION
+export const validateZipCode = (zipCode) => {
+  if (!/^\d{5}(-\d{4})?$/.test(zipCode)) {
+    return "Invalid ZIP code format";
+  } 
+  return "";
+};

@@ -6,6 +6,7 @@ import { validateAddress } from "../utils/validation.jsx";
 import { validateName } from "../utils/validation.jsx";
 import { validatePhoneNumber } from "../utils/validation.jsx";
 import { validateAccountNumber } from "../utils/validation";
+import { validateZipCode } from "../utils/validation.jsx";
 
 
 
@@ -34,8 +35,12 @@ import { validateAccountNumber } from "../utils/validation";
   const [addressError, setAddressError] = useState(""); 
   const [streetadress, setStreetaddress] = useState(""); 
   const [streetaddressError, setStreetaddressError] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const [zipCodeError, setZipCodeError] = useState("");
 
-
+  const handleZipCodeBlur = () => {
+    setZipCodeError(validateZipCode(zipCode));
+  };
 
   const handleAddressBlur = () => {
     setAddressError(validateAddress(companyadress));
@@ -188,8 +193,17 @@ import { validateAccountNumber } from "../utils/validation";
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 ZIP / Postal Code
-              </label>
-              <InputField placeholder="" />
+              </label>  
+              <InputField
+                placeholder=""
+                value={zipCode}
+                onChange={(e) => setZipCode(e.target.value)}
+                onBlur={handleZipCodeBlur}
+                className={zipCodeError ? "border-red-500" : ""}
+              />
+              {zipCodeError && (
+                <p className="text-xs text-red-500 mt-1">{zipCodeError}</p>
+              )}  
             </div>
 
             <div>
