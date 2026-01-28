@@ -61,3 +61,21 @@ export const validateCompanyDescription = (description) => {
   }
   return "";
 };
+//FOR DATE VALIDATION
+export const validateDate = (date) => {
+  if (!date) return "Date is required";
+
+  // Convert string to Date
+  const selectedDate = new Date(date);
+  const currentDate = new Date();
+
+  selectedDate.setHours(0, 0, 0, 0);
+  currentDate.setHours(0, 0, 0, 0);
+
+  if (selectedDate > currentDate) {
+    return "Date cannot be in the future";
+  }
+
+  return "";
+};
+

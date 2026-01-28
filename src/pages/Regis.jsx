@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRef } from "react";
 import InputField from "../components/inputField.jsx";
 import SignatureField from "../components/signitureField.jsx";
 import { validateEmail } from "../utils/validation.jsx";
@@ -8,6 +9,7 @@ import { validatePhoneNumber } from "../utils/validation.jsx";
 import { validateAccountNumber } from "../utils/validation";
 import { validateZipCode } from "../utils/validation.jsx";
 import { validateCompanyDescription } from "../utils/validation.jsx";
+import { validateDate } from "../utils/validation.jsx";
 
 const Reg = () => {
   const [orgName, setOrgName] = React.useState("");
@@ -16,8 +18,6 @@ const Reg = () => {
   const [licensed, setLicensed] = useState("");
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [address, setAddress] = useState("");
-  const [error, setError] = useState("");
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
   const [phoneNumberDay, setPhoneNumberDay] = useState("");
@@ -38,6 +38,23 @@ const Reg = () => {
   const [zipCodeError, setZipCodeError] = useState("");
   const [companyDescription, setCompanyDescription] = useState("");
   const [companyDescriptionError, setCompanyDescriptionError] = useState("");
+  const [date, setDate] = useState("");
+  const [dateError, setDateError] = useState("");
+  const [estdate, setEstdate] = useState("");
+  const [estdateError, setEstdateError] = useState("");
+
+
+  const handleEstBlur = () => {
+    const error = validateDate(estdate);
+    setEstdateError(error);
+  }
+
+  const dateRef = useRef(null);
+
+  const handleDateBlur = () => {
+    const error = validateDate(date);
+    setDateError(error);
+  };
 
   const handleCompanyDescriptionBlur = () => {
     setCompanyDescriptionError(validateCompanyDescription(companyDescription));
@@ -106,10 +123,8 @@ const Reg = () => {
             Complete form below to signup as a vendor.
           </p>
         </div>
-
         {/* Divider */}
         <div className="border-t border-gray-300 mx-8"></div>
-
         {/* Form Section */}
         <div className="px-8 py-6">
           <h3 className="text-lg font-semibold text-gray-800 mb-6">
@@ -332,7 +347,7 @@ const Reg = () => {
               onChange={(e) => setCompanyDescription(e.target.value)}
               onBlur={handleCompanyDescriptionBlur}
               rows={6} // controls height
-              className={`w-full p-2 border rounded resize-y text-left ${companyDescriptionError ? "border-blue-500" : ""}`}
+              className={`w-full p-2 border rounded resize-y text-left ${companyDescriptionError ? "border-red-500" : ""}`}
             />
             {companyDescriptionError && (
               <p className="text-xs text-red-500 mt-1">
@@ -345,10 +360,21 @@ const Reg = () => {
             <label className="block text-sm font-2xl font-semibold  text-gray-700 mt-4 mb-4">
               Establishment Date
             </label>
-            <InputField placeholder="MM-DD-YYYY" />
-            <label className="block text-sm font-small text-gray-700 mt-2">
-              Date
-            </label>
+            <div className="relative">
+                {/* Calendar Icon */}
+                <InputField
+                  type="date"
+                  ref={dateRef}
+                  value={date}
+                  onChange={(e) => setEstdate(e.target.value)}
+                  onBlur={handleEstBlur}
+                  className="w-full "
+                />
+              </div>
+
+              {estdateError && (
+                <p className="text-xs text-red-500 mt-1">{estdateError}</p>
+              )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
@@ -496,20 +522,43 @@ const Reg = () => {
                 evaluation of quotations, bids and proposals.
               </p>
             </div>
-            <label className="block text-sm font-2xl font-semibold  text-gray-700 mt-4 mb-4">
+
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Date
             </label>
-            <InputField placeholder="MM-DD-YYYY" />
-            <label className="block text-xs font-small text-gray-700 mt-2">
-              Date
-            </label>
+
+            <div>
+              <div className="relative">
+                {/* Calendar Icon */}
+                <InputField
+                  type="date"
+                  ref={dateRef}
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  onBlur={handleDateBlur}
+                  className="w-full "
+                />
+              </div>
+
+              {dateError && (
+                <p className="text-xs text-red-500 mt-1">{dateError}</p>
+              )}
+
+              <label className="block text-sm font-small text-gray-700 ">
+                Date
+              </label>
+            </div>
           </div>
         </div>
+
+
+
+
+
         {/* Signiture fields */}
         <div className="p-6 w-[300px] h-[200px]">
           <SignatureField />
         </div>
-
         {/* Submit Button */}
         <button
           type="submit"
