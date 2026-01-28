@@ -38,3 +38,10 @@ export const validateName = (name) => {
   } 
     return "";  
 };  
+  //FOR ACCOUNT NUMBER VALIDATION
+export const validateAccountNumber = (accountNumber) => {
+  if (!/^\d{8,12}$/.test(accountNumber)) {
+    return "Account number must be 8 to 12 digits";
+  }   
+  return "";
+};

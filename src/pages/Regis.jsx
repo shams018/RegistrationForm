@@ -5,9 +5,11 @@ import { validateEmail } from "../utils/validation.jsx";
 import { validateAddress } from "../utils/validation.jsx";
 import { validateName } from "../utils/validation.jsx";
 import { validatePhoneNumber } from "../utils/validation.jsx";
+import { validateAccountNumber } from "../utils/validation";
 
 
-const Reg = () => {
+
+  const Reg = () => {
   const [orgName, setOrgName] = React.useState("");
   const [touched, setTouched] = React.useState(false);
   const [insured, setInsured] = useState("");
@@ -20,17 +22,50 @@ const Reg = () => {
   const [nameError, setNameError] = useState("");
   const [phoneNumberDay, setPhoneNumberDay] = useState("");
   const [phoneNumberEvening, setPhoneNumberEvening] = useState("");
-  const [phoneError, setPhoneError] = useState("");
+  const [dayPhoneError, setDayPhoneError] = React.useState("");
+  const [eveningPhoneError, setEveningPhoneError] = React.useState("");
+  const [accountNumber, setAccountNumber] = useState("");
+  const [accountError, setAccountError] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [firstnameError, setFirstnameError] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [lastnameError, setLastnameError] = useState("");
+  const [companyadress, setCompanyaddress] = useState("");
+  const [addressError, setAddressError] = useState(""); 
+  const [streetadress, setStreetaddress] = useState(""); 
+  const [streetaddressError, setStreetaddressError] = useState("");
 
 
- const handlePhoneBlur = () => {
-    setPhoneError(validatePhoneNumber(phoneNumber));
+
+  const handleAddressBlur = () => {
+    setAddressError(validateAddress(companyadress));
   };
 
-  
+  const handleStreetBlur = () => {
+    setStreetaddressError(validateAddress(streetadress));
+  };  
+
+  const handleFirstBlur = () => {
+    setFirstnameError(validateName(firstname));
+  };
+  const handleLastBlur = () => {
+    setLastnameError(validateName(lastname));
+  };
 
 
-  const handleBlur = () => {
+
+  const handleAccountBlur = () => {
+    setAccountError(validateAccountNumber(accountNumber));
+  };
+
+ const handlePhoneBlur = () => {
+    setDayPhoneError(validatePhoneNumber(phoneNumberDay));
+  };
+
+  const handleEvenPhoneBlur = () => {
+    setEveningPhoneError(validatePhoneNumber(phoneNumberEvening));
+  };
+   const handleBlur = () => {
     setError(validateAddress(address));
   };
 
@@ -102,13 +137,13 @@ const Reg = () => {
 
               <InputField
                 placeholder="Enter company address"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                onBlur={handleBlur}
-                className={error ? "border-red-500" : ""}
+                value={companyadress}
+                onChange={(e) => setCompanyaddress(e.target.value)}
+                onBlur={handleAddressBlur}
+                className={addressError ? "border-red-500" : ""}
               />
 
-              {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
+              {addressError && <p className="text-xs text-red-500 mt-1">{addressError}</p>}
             </div>
 
             <div>
@@ -118,13 +153,13 @@ const Reg = () => {
 
               <InputField
                 placeholder=""
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                onBlur={handleBlur}
-                className={error ? "border-red-500" : ""}
+                value={streetadress}
+                onChange={(e) => setStreetaddress(e.target.value)}
+                onBlur={handleStreetBlur}
+                className={streetaddressError ? "border-red-500" : ""}
               />
 
-              {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
+              {streetaddressError && <p className="text-xs text-red-500 mt-1">{streetaddressError}</p>}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -175,15 +210,15 @@ const Reg = () => {
             <div>
               <InputField 
                 placeholder="" 
-                value={name}
-                onChange={handleNameChange} 
-                onBlur={handleNameBlur}
+                value={firstname}
+                onChange={(e) => setFirstname(e.target.value)}
+                onBlur={handleFirstBlur}
               />
               <label className="block text-sm font-small text-gray-700 mt-2">
                 First Name
               </label>
-              {nameError && (
-                <p className="text-xs text-red-500 mt-1">{nameError}</p>
+              {firstnameError && (
+                <p className="text-xs text-red-500 mt-1">{firstnameError}</p>
               )}
             </div>    
 
@@ -191,15 +226,15 @@ const Reg = () => {
             <div>
               <InputField 
                 placeholder=""
-                value={name}
-                onChange={handleNameChange} 
-                onBlur={handleNameBlur}
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
+                onBlur={handleLastBlur}
               />
               <label className="block text-sm font-small text-gray-700 mt-2">
                 Last Name
               </label>
-              {nameError && (
-                <p className="text-xs text-red-500 mt-1">{nameError}</p>
+              {lastnameError && (
+                <p className="text-xs text-red-500 mt-1">{lastnameError}</p>
               )}
             </div>  
 
@@ -225,10 +260,10 @@ const Reg = () => {
               value={phoneNumberDay}
               onChange={(e) => setPhoneNumberDay(e.target.value)}
               onBlur={handlePhoneBlur}
-              className={phoneError ? "border-red-500" : ""}
+              className={dayPhoneError ? "border-red-500" : ""}
             />
-            {phoneError && (
-              <p className="text-xs text-red-500 mt-1">{phoneError}</p>
+            {dayPhoneError && (
+              <p className="text-xs text-red-500 mt-1">{dayPhoneError}</p>
             )}
               
             </div>
@@ -238,11 +273,11 @@ const Reg = () => {
               placeholder=""
               value={phoneNumberEvening}
               onChange={(e) => setPhoneNumberEvening(e.target.value)}
-              onBlur={handlePhoneBlur}
-              className={phoneError ? "border-red-500" : ""}
+              onBlur={handleEvenPhoneBlur}
+              className={eveningPhoneError ? "border-red-500" : ""}
             />
-            {phoneError && (
-              <p className="text-xs text-red-500 mt-1">{phoneError}</p>
+            {eveningPhoneError && (
+              <p className="text-xs text-red-500 mt-1">{eveningPhoneError}</p>
             )}
             </div>
             
@@ -406,15 +441,25 @@ const Reg = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-2 mt-6">
                   Beneficiary Name
                 </label>
-                <InputField placeholder="" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2 mt-6">
-                  Account Number
-                </label>
+                
                 <InputField placeholder="" />
               </div>
             </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2 mt-6">
+                Account Number
+              </label>
+              <InputField
+                placeholder=""
+                value={accountNumber}
+                onChange={(e) => setAccountNumber(e.target.value)}
+                onBlur={handleAccountBlur}
+                className={accountError ? "border-red-500" : ""}
+              />
+              {accountError && (
+                <p className="text-xs text-red-500 mt-1">{accountError}</p>
+              )}
+            </div>    
 
             <div className="mt-8 mb-8">
               <p>
