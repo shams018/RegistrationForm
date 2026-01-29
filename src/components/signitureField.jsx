@@ -16,7 +16,7 @@ const SignatureField = () => {
       </label>
 
       {/* Signature Box */}
-      <div className="border border-blue-300 rounded-md p-3">
+      <div className="border border-black-300 rounded-md p-3">
         <SignatureCanvas
           ref={sigRef}
           penColor="black"

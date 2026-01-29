@@ -10,6 +10,8 @@ import { validateAccountNumber } from "../utils/validation";
 import { validateZipCode } from "../utils/validation.jsx";
 import { validateCompanyDescription } from "../utils/validation.jsx";
 import { validateDate } from "../utils/validation.jsx";
+import { validateBusinessType } from "../utils/validation.jsx";
+import { validategeneralInputType } from "../utils/validation.jsx";
 
 const Reg = () => {
   const [orgName, setOrgName] = React.useState("");
@@ -42,12 +44,41 @@ const Reg = () => {
   const [dateError, setDateError] = useState("");
   const [estdate, setEstdate] = useState("");
   const [estdateError, setEstdateError] = useState("");
+  const [businessType, setBusinessType] = useState("");
+  const [busnisstypeError, setBusnisstypeError] = useState("");
+  const [generalType, setGeneralType] =useState("");
+  const [generalTypeError, setGeneralTypeError]=useState("");
 
+  const [form, setForm] = useState({
+    city: "",
+    country: "",
+    State:""
+  });
+
+  const [errors, setErrors] = useState({});
+
+   const handleBlur = (field, label) => {
+    setErrors((prev) => ({
+      ...prev,
+      [field]:validategeneralInputType(form[field], label)
+    }));
+  };
+
+  const hadleGeneralTypeBlur=()=>{
+    const error=validategeneralInputType(generalType);
+    setGeneralTypeError(error);
+    
+  };
+
+  const handleBusnissBlur = () => {
+    const error = validateBusinessType(businessType);
+    setBusnisstypeError(error);
+  };
 
   const handleEstBlur = () => {
     const error = validateDate(estdate);
     setEstdateError(error);
-  }
+  };
 
   const dateRef = useRef(null);
 
@@ -90,24 +121,12 @@ const Reg = () => {
   const handleEvenPhoneBlur = () => {
     setEveningPhoneError(validatePhoneNumber(phoneNumberEvening));
   };
-  const handleBlur = () => {
-    setError(validateAddress(address));
-  };
+
 
   const handleEmailBlur = () => {
     setEmailError(validateEmail(email));
   };
 
-  const handleNameBlur = () => {
-    setNameError(validateName(name));
-  };
-
-  const handleNameChange = (e) => {
-    setName(e.target.value);
-    if (nameError) {
-      setNameError(validateName(e.target.value));
-    }
-  };
 
   const isUppercase = orgName === orgName.toUpperCase();
 
@@ -361,34 +380,66 @@ const Reg = () => {
               Establishment Date
             </label>
             <div className="relative">
-                {/* Calendar Icon */}
-                <InputField
-                  type="date"
-                  ref={dateRef}
-                  value={date}
-                  onChange={(e) => setEstdate(e.target.value)}
-                  onBlur={handleEstBlur}
-                  className="w-full "
-                />
-              </div>
+              {/* Calendar Icon */}
+              <InputField
+                type="date"
+                ref={dateRef}
+                value={date}
+                onChange={(e) => setEstdate(e.target.value)}
+                onBlur={handleEstBlur}
+                className="w-full "
+              />
+            </div>
 
-              {estdateError && (
-                <p className="text-xs text-red-500 mt-1">{estdateError}</p>
-              )}
+            {estdateError && (
+              <p className="text-xs text-red-500 mt-1">{estdateError}</p>
+            )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2 mt-6">
-                  Geographic Service Area
-                </label>
-                <InputField placeholder="" />
+               <label className="block text-sm font-medium text-gray-700 mb-2 mt-6">
+                    Geographic Service Area
+                  </label>
+
+                  <input
+                    type="text"
+                    value={generalType}
+                    onChange={(e) => setGeneralType(e.target.value)}
+                    onBlur={hadleGeneralTypeBlur}
+                    placeholder=""
+                    className={`w-full px-3 py-2 border rounded-md 
+                   ${generalTypeError ? "border-red-500" : "border-gray-300"}`}
+                  />
+
+                  {generalTypeError && (
+                    <p className="text-red-500 text-xs mt-1">
+                       {generalTypeError}
+                    </p>
+                  )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2 mt-6">
-                  Business Type
-                </label>
-                <InputField placeholder="" />
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2 mt-6">
+                    Business Type
+                  </label>
+
+                  <input
+                    type="text"
+                    value={businessType}
+                    onChange={(e) => setBusinessType(e.target.value)}
+                    onBlur={handleBusnissBlur}
+                    placeholder="e.g. Software House"
+                    className={`w-full px-3 py-2 border rounded-md 
+                   ${busnisstypeError ? "border-red-500" : "border-gray-300"}`}
+                  />
+
+                  {busnisstypeError && (
+                    <p className="text-red-500 text-xs mt-1">
+                       {busnisstypeError}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -550,10 +601,6 @@ const Reg = () => {
             </div>
           </div>
         </div>
-
-
-
-
 
         {/* Signiture fields */}
         <div className="p-6 w-[300px] h-[200px]">

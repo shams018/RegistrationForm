@@ -78,4 +78,33 @@ export const validateDate = (date) => {
 
   return "";
 };
+//for busniss type validatio
+export const validateBusinessType = (value) => {
+  if (!value.trim()) {
+    return "Business type is required";
+  }
+
+  if (!/^[A-Za-z\s]+$/.test(value)) {
+    return "Only letters are allowed";
+  }
+
+  if (value.trim().length < 3) {
+    return "Business type must be at least 3 characters";
+  }
+
+  return "";
+};
+//for general type validaton for general inputfiled
+ export const validategeneralInputType = (value)=>{
+  if (!value.trim()){
+    return "Input text must be requird";
+  }
+  if(!/^[A-Za-z\s]+$/.test(value)){
+    return "only letters are allowed";
+  }
+  if(value.trim().length<4){
+    return "The input type must be at least 4 characters";
+  }
+  return "";
+ };
 
