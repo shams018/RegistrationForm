@@ -295,21 +295,17 @@ const Reg = () => {
             </div>
           </div>
 
-          <div className=" grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div>
-              <h1 className="text-lg font-semibold text-gray-800 mb-2 mt-4">
-                Phone Number (Day)
-              </h1>
-            </div>
+          <div >
+            
 
-            <div>
-              <h1 className="text-lg font-semibold text-gray-800 mb-2 mt-4">
-                Phone Number (Evening)
-              </h1>
-            </div>
+           
           </div>
           <div className=" grid grid-cols-1 md:grid-cols-2 gap-2">
+            
             <div>
+               <label className="block text-lg font-semibold text-gray-800 mb-2 mt-4">
+               Phone Number (Day)
+              </label>
               <InputField
                 placeholder=""
                 value={phoneNumberDay}
@@ -323,6 +319,9 @@ const Reg = () => {
             </div>
 
             <div>
+              <label className="block text-lg font-semibold text-gray-800 mb-2 mt-4">
+               Phone Number (Evening)
+              </label>
               <InputField
                 placeholder=""
                 value={phoneNumberEvening}
