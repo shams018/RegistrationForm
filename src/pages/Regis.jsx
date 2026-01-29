@@ -14,18 +14,16 @@ import { validateBusinessType } from "../utils/validation.jsx";
 import { validategeneralInputType } from "../utils/validation.jsx";
 
 const Reg = () => {
-  const [orgName, setOrgName] = React.useState("");
-  const [touched, setTouched] = React.useState(false);
+  const [orgName, setOrgName] = useState("");
+  const [touched, setTouched] = useState(false);
   const [insured, setInsured] = useState("");
   const [licensed, setLicensed] = useState("");
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [name, setName] = useState("");
-  const [nameError, setNameError] = useState("");
   const [phoneNumberDay, setPhoneNumberDay] = useState("");
   const [phoneNumberEvening, setPhoneNumberEvening] = useState("");
-  const [dayPhoneError, setDayPhoneError] = React.useState("");
-  const [eveningPhoneError, setEveningPhoneError] = React.useState("");
+  const [dayPhoneError, setDayPhoneError] = useState("");
+  const [eveningPhoneError, setEveningPhoneError] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
   const [accountError, setAccountError] = useState("");
   const [firstname, setFirstname] = useState("");
@@ -46,28 +44,12 @@ const Reg = () => {
   const [estdateError, setEstdateError] = useState("");
   const [businessType, setBusinessType] = useState("");
   const [busnisstypeError, setBusnisstypeError] = useState("");
-  const [generalType, setGeneralType] =useState("");
-  const [generalTypeError, setGeneralTypeError]=useState("");
+  const [generalType, setGeneralType] = useState("");
+  const [generalTypeError, setGeneralTypeError] = useState("");
 
-  const [form, setForm] = useState({
-    city: "",
-    country: "",
-    State:""
-  });
-
-  const [errors, setErrors] = useState({});
-
-   const handleBlur = (field, label) => {
-    setErrors((prev) => ({
-      ...prev,
-      [field]:validategeneralInputType(form[field], label)
-    }));
-  };
-
-  const hadleGeneralTypeBlur=()=>{
-    const error=validategeneralInputType(generalType);
+  const hadleGeneralTypeBlur = () => {
+    const error = validategeneralInputType(generalType);
     setGeneralTypeError(error);
-    
   };
 
   const handleBusnissBlur = () => {
@@ -122,13 +104,9 @@ const Reg = () => {
     setEveningPhoneError(validatePhoneNumber(phoneNumberEvening));
   };
 
-
   const handleEmailBlur = () => {
     setEmailError(validateEmail(email));
   };
-
-
-  const isUppercase = orgName === orgName.toUpperCase();
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center px-4 py-10">
@@ -160,9 +138,10 @@ const Reg = () => {
 
               <InputField
                 placeholder=""
+                name="orgname"
                 value={orgName}
                 onChange={(e) => setOrgName(e.target.value)}
-                onBlur={() => setTouched(true)} // 👈 validate AFTER typing
+                onBlur={() => setTouched(true)}
               />
 
               {touched && orgName.length > 0 && !isUppercase && (
@@ -295,16 +274,11 @@ const Reg = () => {
             </div>
           </div>
 
-          <div >
-            
-
-           
-          </div>
+          <div></div>
           <div className=" grid grid-cols-1 md:grid-cols-2 gap-2">
-            
             <div>
-               <label className="block text-lg font-semibold text-gray-800 mb-2 mt-4">
-               Phone Number (Day)
+              <label className="block text-lg font-semibold text-gray-800 mb-2 mt-4">
+                Phone Number (Day)
               </label>
               <InputField
                 placeholder=""
@@ -320,7 +294,7 @@ const Reg = () => {
 
             <div>
               <label className="block text-lg font-semibold text-gray-800 mb-2 mt-4">
-               Phone Number (Evening)
+                Phone Number (Evening)
               </label>
               <InputField
                 placeholder=""
@@ -396,25 +370,25 @@ const Reg = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-               <label className="block text-sm font-medium text-gray-700 mb-2 mt-6">
-                    Geographic Service Area
-                  </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2 mt-6">
+                  Geographic Service Area
+                </label>
 
-                  <input
-                    type="text"
-                    value={generalType}
-                    onChange={(e) => setGeneralType(e.target.value)}
-                    onBlur={hadleGeneralTypeBlur}
-                    placeholder=""
-                    className={`w-full px-3 py-2 border rounded-md 
+                <input
+                  type="text"
+                  value={generalType}
+                  onChange={(e) => setGeneralType(e.target.value)}
+                  onBlur={hadleGeneralTypeBlur}
+                  placeholder=""
+                  className={`w-full px-3 py-2 border rounded-md 
                    ${generalTypeError ? "border-red-500" : "border-gray-300"}`}
-                  />
+                />
 
-                  {generalTypeError && (
-                    <p className="text-red-500 text-xs mt-1">
-                       {generalTypeError}
-                    </p>
-                  )}
+                {generalTypeError && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {generalTypeError}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -435,7 +409,7 @@ const Reg = () => {
 
                   {busnisstypeError && (
                     <p className="text-red-500 text-xs mt-1">
-                       {busnisstypeError}
+                      {busnisstypeError}
                     </p>
                   )}
                 </div>
@@ -477,7 +451,7 @@ const Reg = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Licensed?
               </label>
-              <div className="flex items-center gap-6  p-3 rounded-md">
+              <div className="flex items-center gap-6  rounded-md">
                 <label className="flex items-center gap-2">
                   <input
                     type="radio"
@@ -503,16 +477,19 @@ const Reg = () => {
               </div>
             </div>
 
-            {/* License Number */}
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                License Number
-              </label>
-              <input
-                type="text"
-                className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+            {/* License Number (show only if Yes) */}
+            {licensed === "Yes" && (
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  License Number
+                </label>
+                <input
+                  type="text"
+                  className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter license number"
+                />
+              </div>
+            )}
 
             {/* Gross Annual Sales */}
             <div className="mb-6">
