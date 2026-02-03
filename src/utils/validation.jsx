@@ -107,4 +107,56 @@ export const validateBusinessType = (value) => {
   }
   return "";
  };
+//for countryname,state/provience,cityname, 
+const pakistanKeywords = [
+  "PAKISTAN",
+  "PAKISTANI",
+  "PUNJAB",
+  "SINDH",
+  "BALOCHISTAN",
+  "KPK",
+  "KHYBER PAKHTUNKHWA",
+  "ISLAMABAD",
+  "KARACHI",
+  "LAHORE",
+  "PESHAWAR",
+  "QUETTA",
+  "HBL",
+  "UBL",
+  "ABL",
+  "NBP"
+];
+
+export const validateinputType=(value)=>{
+  if (!value.trim()){
+    return "Input text must be requird";
+  }
+  if(!/^[A-Za-z\s]+$/.test(value)){
+    return "only letters are allowed";
+  }
+  if(value.trim().length<3){
+    return "The input type must be at least 4 characters";
+  }
+ const upperValue = value.trim().toUpperCase();
+
+  if (!pakistanKeywords.includes(upperValue)) {
+    return "Only Pakistan-related information is allowed";
+  }
+
+}
+ export const validateBeneficiaryName = (value) => {
+  if (!value.trim()) {
+    return "Beneficiary name is required";
+  }
+
+  if (!/^[A-Za-z\s]+$/.test(value)) {
+    return "Only letters are allowed";
+  }
+
+  if (value.length < 3) {
+    return "Minimum 3 characters required";
+  }
+
+  return "";
+};
 

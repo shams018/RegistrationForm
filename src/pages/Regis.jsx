@@ -12,10 +12,10 @@ import { validateCompanyDescription } from "../utils/validation.jsx";
 import { validateDate } from "../utils/validation.jsx";
 import { validateBusinessType } from "../utils/validation.jsx";
 import { validategeneralInputType } from "../utils/validation.jsx";
-
+import { validateinputType } from "../utils/validation.jsx";
+import { validateBeneficiaryName } from "../utils/validation.jsx";
 const Reg = () => {
   const [orgName, setOrgName] = useState("");
-  const [touched, setTouched] = useState(false);
   const [insured, setInsured] = useState("");
   const [licensed, setLicensed] = useState("");
   const [email, setEmail] = useState("");
@@ -46,7 +46,61 @@ const Reg = () => {
   const [busnisstypeError, setBusnisstypeError] = useState("");
   const [generalType, setGeneralType] = useState("");
   const [generalTypeError, setGeneralTypeError] = useState("");
+  const [values, setValues] = useState({
+    city: "",
+    country: "",
+    province: "",
+    bankname:"",
+    beneficiaryName:""
+  });
 
+  const [errors, setErrors] = useState({
+    city: "",
+    country: "",
+    province: "",
+    bankname:"",
+    beneficiaryName:"",
+  });
+
+  const [touched, setTouched] = useState({
+    city: false,
+    country: false,
+    province: false,
+     bankname: false,
+     beneficiaryName:false,
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  const handleBlur = (e) => {
+  const { name } = e.target;
+
+  setTouched((prev) => ({
+    ...prev,
+    [name]: true,
+  }));
+
+  let error = "";
+
+  if (name === "beneficiaryName") {
+    error = validateBeneficiaryName(values[name]);   
+  } else {
+    error = validateinputType(values[name]);        
+  }
+
+  setErrors((prev) => ({
+    ...prev,
+    [name]: error,
+  }));
+};
+
+ 
   const hadleGeneralTypeBlur = () => {
     const error = validategeneralInputType(generalType);
     setGeneralTypeError(error);
@@ -107,6 +161,7 @@ const Reg = () => {
   const handleEmailBlur = () => {
     setEmailError(validateEmail(email));
   };
+  const isUppercase = orgName === orgName.toUpperCase();
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center px-4 py-10">
@@ -202,14 +257,32 @@ const Reg = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 City
               </label>
-              <InputField placeholder="" />
+              <InputField
+                name="city"
+                value={values.city}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+
+              {touched.city && errors.city && (
+                <p className="text-red-500 text-sm"> {errors.city}</p>
+              )}
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 State / Province
               </label>
-              <InputField placeholder="" />
+              <InputField
+                name="province"
+                value={values.province}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+
+              {touched.province && errors.province && (
+                <p className="text-red-500 text-sm"> {errors.province}</p>
+              )}
             </div>
 
             <div>
@@ -232,7 +305,16 @@ const Reg = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Country
               </label>
-              <InputField placeholder="" />
+              <InputField
+                name="country"
+                value={values.country}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+
+              {touched.country && errors.country && (
+                <p className="text-red-500 text-sm"> {errors.country}</p>
+              )}
             </div>
           </div>
 
@@ -459,7 +541,7 @@ const Reg = () => {
                     value="Yes"
                     checked={licensed === "Yes"}
                     onChange={(e) => setLicensed(e.target.value)}
-                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 bg-blue-800"
                   />
                   Yes
                 </label>
@@ -513,7 +595,15 @@ const Reg = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-2 mt-6">
                   Bank Name
                 </label>
-                <InputField placeholder="" />
+                <InputField 
+                 name="bankname"
+                value={values.bankname}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                 />
+                 {touched.bankname && errors.bankname && (
+                <p className="text-red-500 text-sm"> {errors.bankname}</p>
+              )}
               </div>
 
               <div>
@@ -521,7 +611,16 @@ const Reg = () => {
                   Beneficiary Name
                 </label>
 
-                <InputField placeholder="" />
+                <InputField 
+                name ="beneficiaryName"
+                value={values.beneficiaryName}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                placeholder="" />
+                 {touched.beneficiaryName && errors.beneficiaryName && (
+                <p className="text-red-500 text-sm"> {errors.beneficiaryName}</p>
+              )}
+
               </div>
             </div>
             <div>
@@ -539,15 +638,22 @@ const Reg = () => {
                 <p className="text-xs text-red-500 mt-1">{accountError}</p>
               )}
             </div>
-
             <div className="mt-8 mb-8">
-              <p>
-                I hereby affirm that all information provided above is accurate
-                to the best of my knowledge <br />
-                and belief, and I understand that this information will be
-                considered material in the <br />
-                evaluation of quotations, bids and proposals.
-              </p>
+              <label className="flex items-start gap-2 mt-1">
+                <input
+                  type="radio"
+                  name="affirmation"
+                  value="agree"
+                  className="form-radio mt-1 h-4 w-4 text-blue-600"
+                />
+                <span>
+                  I hereby affirm that all information provided above is
+                  accurate to the best of my knowledge <br />
+                  and belief, and I understand that this information will be
+                  considered material in the <br /> evaluation of quotations,
+                  bids, and proposals.
+                </span>
+              </label>
             </div>
 
             <label className="block text-sm font-medium text-gray-700 mb-2">
